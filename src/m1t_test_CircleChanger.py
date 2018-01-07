@@ -150,6 +150,7 @@ def draw(circle_changer, message=None):
                                        y_position=from_bottom)
 
 
+
 def evaluate_circle_changer(circle_changer,
                             x, y, radius, color, thickness, colors):
     expected_circle = rg.Circle(rg.Point(x, y), radius)
