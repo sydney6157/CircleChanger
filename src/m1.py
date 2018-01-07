@@ -4,10 +4,11 @@ A problem in which to practice:
   -- using SEQUENCES
 
 Authors: Valerie Galluzzi, David Mutchler, Dave Fisher, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
+         their colleagues and Sydney Larson.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
+import math
 import random
 import sys
 import time
@@ -85,6 +86,10 @@ class CircleChanger(object):
         """
         self.animation_factor = 1  # Smaller => faster animations
         self.seconds_to_sleep = 0.5  # Default for each call to draw
+        self.colors = colors
+        self.circle = rg.Circle(rg.Point(x, y), radius)
+        self.circle.fill_color = fill_color
+        self.original_color = fill_color
         # --------------------------------------------------------------
         # Change the above "animation_factor" if the animations
         # go too fast or too slow for your tastes.  Setting it to N
@@ -191,6 +196,8 @@ class CircleChanger(object):
         Type hints:
             :type point: rg.Point
         """
+        distance = math.sqrt((point.x - self.circle.center.x) ** 2 + (point.y - self.circle.center.y) ** 2)
+        return distance
         ################################################################
         # TODO: 3.
         #   First, READ the doc-string (specification) above.
@@ -236,6 +243,12 @@ class CircleChanger(object):
         Type hints:
             :type amount_to_swell_or_shrink: int
         """
+        self.circle.radius += amount_to_swell_or_shrink
+        if self.circle.radius < 1:
+            self.circle.radius = 1
+        self.circle.outline_thickness = random.randrange(3, 16)
+        color_index = random.randrange(0, len(self.colors))
+        self.circle.fill_color = self.colors[color_index]
         ################################################################
         # TODO: 4.
         #   First, READ the doc-string (specification) above.
@@ -318,6 +331,14 @@ class CircleChanger(object):
             :type amount_to_swell_or_shrink: int
             :type times_to_swell_or_shrink:  int
         """
+        for k in range(times_to_swell_or_shrink):
+            cir = CircleChanger(self.circle.center.x, self.circle.center.y,
+                              self.circle.radius,
+                              self.circle.fill_color, self.colors)
+            cir.swell_or_shrink_once(amount_to_swell_or_shrink)
+            cir.draw()
+            cir.swell_or_shrink_once(-amount_to_swell_or_shrink)
+            cir.draw()
         ################################################################
         # TODO: 5.
         #   First, READ the doc-string (specification) above.
@@ -350,6 +371,13 @@ class CircleChanger(object):
             :type other_circle_changer: CircleChanger
             :rtype CircleChanger
         """
+        circ = other_circle_changer
+        center = rg.Point((self.circle.center.x + circ.circle.center.x) / 2,
+                          (self.circle.center.y + circ.circle.center.y) / 2)
+        rad = self.get_distance_from(circ.circle.center) / 2
+        colors = self.colors + circ.colors
+        new = CircleChanger(center.x, center.y, rad, 'red', colors)
+        return new
         ################################################################
         # TODO: 6.
         #   First, READ the doc-string (specification) above.
@@ -381,6 +409,7 @@ class CircleChanger(object):
         Type hints:
             :type index_of_color: int
         """
+        self.circle.fill_color = self.colors[index_of_color]
         ################################################################
         # TODO: 7.
         #   First, READ the doc-string (specification) above.
@@ -398,6 +427,7 @@ class CircleChanger(object):
                the same color that it was when this CircleChanger
                was constructed.
         """
+        self.circle.fill_color = self.original_color
         ################################################################
         # TODO: 8.
         #   First, READ the doc-string (specification) above.
