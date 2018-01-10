@@ -27,7 +27,7 @@ def main():
     That is, a  TEST   function will not be called
     until you begin work on the code that it is testing.
     """
-    if m1_tests.is_implemented('__init__', 20):
+    if m1_tests.is_implemented('__init__', 10):
         run_test_init()
     if m1_tests.is_implemented('get_distance_from'):
         run_test_get_distance_from()
@@ -84,18 +84,18 @@ class CircleChanger(object):
             :type fill_color: str
             :type colors: sequence of str
         """
+
+        # --------------------------------------------------------------
+        # Change the above "animation_factor" if the animations
+        # go too fast or too slow for your tastes.  Setting it to N
+        # makes the animations go N times SLOWER.
+        # --------------------------------------------------------------
         self.animation_factor = 1  # Smaller => faster animations
         self.seconds_to_sleep = 0.5  # Default for each call to draw
         self.colors = colors
         self.circle = rg.Circle(rg.Point(x, y), radius)
         self.circle.fill_color = fill_color
         self.original_color = fill_color
-        # --------------------------------------------------------------
-        # Change the above "animation_factor" if the animations
-        # go too fast or too slow for your tastes.  Setting it to N
-        # makes the animations go N times SLOWER.
-        # --------------------------------------------------------------
-
         ################################################################
         # TODO: 2.
         #   First, READ the doc-string (specification) above.
